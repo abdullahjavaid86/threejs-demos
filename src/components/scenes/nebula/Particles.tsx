@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
+import { portraitFit } from "@/lib/media";
 import * as THREE from "three";
 import { buildForms } from "./forms";
 import { fragmentShader, vertexShader } from "./shaders";
@@ -48,10 +49,10 @@ function createUniforms(): Uniforms {
   };
 }
 
-export function Particles() {
+export function Particles({ count }: { count: number }) {
   const points = useRef<THREE.Points>(null);
   const material = useRef<THREE.ShaderMaterial>(null);
-  const forms = useMemo(() => buildForms(), []);
+  const forms = useMemo(() => buildForms(count), [count]);
   const initialUniforms = useMemo(() => createUniforms(), []);
 
   const state = useRef({
@@ -79,7 +80,7 @@ export function Particles() {
     return () => el.removeEventListener("click", advance);
   }, [gl]);
 
-  useFrame(({ pointer, camera, clock }, delta) => {
+  useFrame(({ pointer, camera, clock, viewport }, delta) => {
     const mesh = points.current;
     const mat = material.current;
     if (!mesh || !mat) return;
@@ -138,6 +139,12 @@ export function Particles() {
     // Gentle parallax.
     camera.position.x = THREE.MathUtils.damp(camera.position.x, pointer.x * 0.6, 2, dt);
     camera.position.y = THREE.MathUtils.damp(camera.position.y, pointer.y * 0.4, 2, dt);
+    camera.position.z = THREE.MathUtils.damp(
+      camera.position.z,
+      6.5 * portraitFit(viewport.aspect, 0.72),
+      2,
+      dt,
+    );
     camera.lookAt(0, 0, 0);
   });
 

@@ -1,4 +1,5 @@
-export const COUNT = 60_000;
+export const DESKTOP_COUNT = 60_000;
+export const MOBILE_COUNT = 28_000;
 
 type Forms = {
   form0: Float32Array;
@@ -19,7 +20,7 @@ function mulberry32(seed: number) {
 }
 
 /** Sphere (fibonacci), torus and three-arm galaxy targets plus per-point seeds. */
-export function buildForms(): Forms {
+export function buildForms(COUNT: number): Forms {
   const rand = mulberry32(1337);
   const form0 = new Float32Array(COUNT * 3);
   const form1 = new Float32Array(COUNT * 3);

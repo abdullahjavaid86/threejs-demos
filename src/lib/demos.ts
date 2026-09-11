@@ -1,5 +1,5 @@
 export type Demo = {
-  slug: "nebula" | "prism" | "tides" | "assembly";
+  slug: "nebula" | "prism" | "tides" | "assembly" | "iphone";
   index: string;
   title: string;
   tagline: string;
@@ -48,6 +48,16 @@ export const demos: Demo[] = [
       "A device built from procedural geometry, pinned in place while the page scrolls past. Each chapter takes it apart, moves in close, and puts it back together.",
     hint: "Scroll to explore",
     accent: "#e0c9a6",
+  },
+  {
+    slug: "iphone",
+    index: "05",
+    title: "iPhone 12",
+    tagline: "Real teardown model, feature story",
+    description:
+      "A real iPhone 12 teardown model with every part intact. Leader lines point at each feature as the page scrolls, and exploration mode scatters the shell so you can inspect the internals.",
+    hint: "Scroll · Explore inside",
+    accent: "#8fc3ff",
   },
 ];
 

@@ -22,7 +22,7 @@ export function Stage({ children, className, ...canvasProps }: StageProps) {
         animate={ready ? { opacity: 1, scale: 1 } : undefined}
         transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
       >
-        <Canvas dpr={[1, 1.75]} onCreated={() => setReady(true)} {...canvasProps}>
+        <Canvas dpr={[1, 1.5]} onCreated={() => setReady(true)} {...canvasProps}>
           {children}
         </Canvas>
       </motion.div>

@@ -8,6 +8,7 @@ const scenes = {
   prism: dynamic(() => import("@/components/scenes/prism/PrismScene"), { ssr: false }),
   tides: dynamic(() => import("@/components/scenes/tides/TidesScene"), { ssr: false }),
   assembly: dynamic(() => import("@/components/scenes/assembly/AssemblyScene"), { ssr: false }),
+  iphone: dynamic(() => import("@/components/scenes/iphone/IphoneScene"), { ssr: false }),
 } satisfies Record<Demo["slug"], React.ComponentType>;
 
 export function SceneLoader({ scene }: { scene: Demo["slug"] }) {

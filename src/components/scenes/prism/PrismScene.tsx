@@ -1,6 +1,8 @@
 "use client";
 
 import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
+import { portraitFit, useIsSmallScreen } from "@/lib/media";
 import { Bloom, EffectComposer, Noise, Vignette } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import { Stage } from "@/components/ui/Stage";
@@ -8,14 +10,34 @@ import { Backdrop } from "./Backdrop";
 import { Glass } from "./Glass";
 import { Orbs } from "./Orbs";
 
+function Orbit() {
+  const aspect = useThree((s) => s.viewport.aspect);
+  const distance = 7.5 * portraitFit(aspect, 0.8);
+  return (
+    <OrbitControls
+      enableZoom={false}
+      enablePan={false}
+      enableDamping
+      dampingFactor={0.04}
+      autoRotate
+      autoRotateSpeed={0.5}
+      minDistance={distance}
+      maxDistance={distance}
+      minPolarAngle={Math.PI * 0.3}
+      maxPolarAngle={Math.PI * 0.7}
+    />
+  );
+}
+
 export default function PrismScene() {
+  const small = useIsSmallScreen();
   return (
     <Stage
       camera={{ position: [0, 0.4, 7.5], fov: 32, near: 0.1, far: 80 }}
       gl={{ antialias: false, powerPreference: "high-performance" }}
     >
       <Backdrop />
-      <Glass />
+      <Glass quality={small ? "low" : "high"} />
       <Orbs />
 
       <Environment resolution={512} frames={1}>
@@ -51,18 +73,9 @@ export default function PrismScene() {
         </group>
       </Environment>
 
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        enableDamping
-        dampingFactor={0.04}
-        autoRotate
-        autoRotateSpeed={0.5}
-        minPolarAngle={Math.PI * 0.3}
-        maxPolarAngle={Math.PI * 0.7}
-      />
+      <Orbit />
 
-      <EffectComposer multisampling={4}>
+      <EffectComposer multisampling={small ? 0 : 4}>
         <Bloom intensity={0.45} luminanceThreshold={0.85} luminanceSmoothing={0.4} mipmapBlur />
         <Noise opacity={0.05} blendFunction={BlendFunction.SOFT_LIGHT} />
         <Vignette eskil={false} offset={0.25} darkness={0.75} />

@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Float, MeshTransmissionMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-export function Glass() {
+export function Glass({ quality }: { quality: "high" | "low" }) {
   const knot = useRef<THREE.Mesh>(null);
 
   useFrame((_, delta) => {
@@ -21,8 +21,8 @@ export function Glass() {
         <MeshTransmissionMaterial
           backside
           backsideThickness={0.35}
-          samples={10}
-          resolution={1024}
+          samples={quality === "high" ? 10 : 5}
+          resolution={quality === "high" ? 1024 : 512}
           transmission={1}
           thickness={1.4}
           roughness={0.06}

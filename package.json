@@ -23,12 +23,18 @@
     "three": "0.186.0"
   },
   "devDependencies": {
+    "@gltf-transform/cli": "4.5.0",
+    "@gltf-transform/core": "4.5.0",
+    "@gltf-transform/extensions": "4.5.0",
+    "@gltf-transform/functions": "4.5.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "0.185.4",
     "babel-plugin-react-compiler": "1.0.0",
+    "draco3dgltf": "1.5.7",
+    "meshoptimizer": "1.2.0",
     "oxfmt": "0.67.0",
     "oxlint": "1.82.0",
     "tailwindcss": "^4",

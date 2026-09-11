@@ -21,7 +21,10 @@ export function Frame({ demo, compact = false }: { demo: Demo; compact?: boolean
   return (
     <div
       className="pointer-events-none fixed inset-0 z-40 flex flex-col justify-between p-6 sm:p-8"
-      style={{ ["--accent" as string]: demo.accent }}
+      style={{
+        ["--accent" as string]: demo.accent,
+        paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))",
+      }}
     >
       <header className="flex items-start justify-between">
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.2}>
@@ -59,48 +62,48 @@ export function Frame({ demo, compact = false }: { demo: Demo; compact?: boolean
       </header>
 
       {compact ? null : (
-      <footer className="flex items-end justify-between gap-8">
-        <div className="max-w-md">
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0.5}
-            className="text-label"
-            style={{ color: "var(--accent)" }}
-          >
-            {demo.index} · {demo.tagline}
-          </motion.p>
-          <motion.h1
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0.6}
-            className="mt-3 text-display text-6xl sm:text-7xl"
-          >
-            {demo.title}
-          </motion.h1>
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0.75}
-            className="mt-4 hidden max-w-sm text-sm leading-relaxed text-mist sm:block"
-          >
-            {demo.description}
-          </motion.p>
-        </div>
+        <footer className="flex items-end justify-between gap-8">
+          <div className="max-w-md">
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              custom={0.5}
+              className="text-label"
+              style={{ color: "var(--accent)" }}
+            >
+              {demo.index} · {demo.tagline}
+            </motion.p>
+            <motion.h1
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              custom={0.6}
+              className="mt-3 text-display text-5xl sm:text-7xl"
+            >
+              {demo.title}
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              custom={0.75}
+              className="mt-4 hidden max-w-sm text-sm leading-relaxed text-mist sm:block"
+            >
+              {demo.description}
+            </motion.p>
+          </div>
 
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={0.9}
-          className="shrink-0 text-label text-right"
-        >
-          {demo.hint}
-        </motion.p>
-      </footer>
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            custom={0.9}
+            className="shrink-0 text-label text-right"
+          >
+            {demo.hint}
+          </motion.p>
+        </footer>
       )}
     </div>
   );

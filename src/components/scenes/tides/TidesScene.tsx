@@ -7,8 +7,10 @@ import { Ocean } from "./Ocean";
 import { Sections } from "./Sections";
 import { Sky } from "./Sky";
 import { palette } from "./palette";
+import { useIsSmallScreen } from "@/lib/media";
 
 export default function TidesScene() {
+  const small = useIsSmallScreen();
   return (
     <Stage
       camera={{ position: [0, 4.2, 9], fov: 50, near: 0.1, far: 120 }}
@@ -17,7 +19,7 @@ export default function TidesScene() {
       <fog attach="fog" args={[palette.horizon, 6, 34]} />
       <ScrollControls pages={4} damping={0.28}>
         <Sky />
-        <Ocean />
+        <Ocean segments={small ? 220 : 400} />
         <CameraRig />
         <Scroll html>
           <Sections />

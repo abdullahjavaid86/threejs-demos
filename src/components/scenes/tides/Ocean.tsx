@@ -22,7 +22,7 @@ function createUniforms() {
   ]);
 }
 
-export function Ocean() {
+export function Ocean({ segments }: { segments: number }) {
   const material = useRef<THREE.ShaderMaterial>(null);
   const scroll = useScroll();
   const initialUniforms = useMemo(() => createUniforms(), []);
@@ -42,7 +42,7 @@ export function Ocean() {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -4]}>
-      <planeGeometry args={[90, 90, 400, 400]} />
+      <planeGeometry args={[90, 90, segments, segments]} />
       <shaderMaterial
         ref={material}
         uniforms={initialUniforms}

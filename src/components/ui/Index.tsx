@@ -8,7 +8,10 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Index() {
   return (
-    <main className="flex min-h-dvh flex-col justify-between p-6 sm:p-8">
+    <main
+      className="flex min-h-dvh flex-col justify-between p-6 sm:p-8"
+      style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
+    >
       <motion.header
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -26,7 +29,7 @@ export function Index() {
           transition={{ duration: 1, delay: 0.3, ease }}
           className="max-w-md text-sm leading-relaxed text-mist"
         >
-          Three interactive scenes, one idea each. Built with real-time shaders, physically based
+          A set of interactive scenes, one idea each. Built with real-time shaders, physically based
           light and scroll choreography — the kind of motion that makes a product feel alive.
         </motion.p>
 
@@ -72,7 +75,7 @@ export function Index() {
         className="flex flex-wrap items-center justify-between gap-4 text-label"
       >
         <span>Next.js 16 · React 19 · Three.js r186 · React Three Fiber 9</span>
-        <span>Best viewed on desktop with a pointer</span>
+        <span>Touch friendly, best with a pointer</span>
       </motion.footer>
     </main>
   );
