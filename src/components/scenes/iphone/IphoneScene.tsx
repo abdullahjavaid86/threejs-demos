@@ -13,6 +13,7 @@ export default function IphoneScene() {
     <Stage
       camera={{ position: [1.7, 0.5, 3.6], fov: 32, near: 0.1, far: 60 }}
       gl={{ antialias: false, powerPreference: "high-performance" }}
+      dpr={[1, 1.25]}
       className="bg-[radial-gradient(ellipse_at_50%_45%,#141a24_0%,#09090b_65%)]"
     >
       <Phone />
@@ -23,8 +24,9 @@ export default function IphoneScene() {
         position={[0, -1.32, 0]}
         opacity={0.5}
         scale={6}
-        blur={2.2}
+        blur={1.6}
         far={2.5}
+        resolution={256}
         color="#000000"
       />
 
@@ -61,7 +63,7 @@ export default function IphoneScene() {
         </group>
       </Environment>
 
-      <EffectComposer multisampling={small ? 0 : 4}>
+      <EffectComposer multisampling={small ? 0 : 2}>
         <Bloom intensity={0.3} luminanceThreshold={0.92} luminanceSmoothing={0.3} mipmapBlur />
         <Vignette eskil={false} offset={0.25} darkness={0.65} />
       </EffectComposer>

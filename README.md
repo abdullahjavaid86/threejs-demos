@@ -53,7 +53,9 @@ The raw download lives in `public/models/src/` (git-ignored). `public/models/iph
 ```sh
 node scripts/fetch-sketchfab.mjs <uid> public/models/src        # needs SKETCHFAB_API_TOKEN in .env
 node scripts/inspect-model.mjs public/models/src/scene.gltf     # node tree with sizes and centres
-npx gltf-transform optimize public/models/src/scene.gltf public/models/iphone-12-teardown.glb \
+npx gltf-transform resize public/models/src/scene.gltf public/models/stage.glb \
+  --width 512 --height 512 --pattern "*{normal,metallicRoughness,transmission}*"
+npx gltf-transform optimize public/models/stage.glb public/models/iphone-12-teardown.glb \
   --flatten false --join false --instance false --palette false \
   --simplify true --simplify-ratio 0.5 --simplify-error 0.0005 \
   --texture-compress webp --texture-size 1024 --compress meshopt

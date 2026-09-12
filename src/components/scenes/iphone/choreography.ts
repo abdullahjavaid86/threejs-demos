@@ -10,9 +10,9 @@ type Key = Keyframe<{
 /** Camera path around the phone along page scroll progress. `peek` partially opens the shell. */
 export const keys: Key[] = [
   { at: 0, position: [2.2, 0.6, 4.8], target: [0, 0, 0], peek: 0 },
-  { at: 0.15, position: [0.3, 0.2, 4.3], target: [0, 0.15, 0], peek: 0 },
+  { at: 0.15, position: [0.3, 0.2, 4.8], target: [0, 0.1, 0], peek: 0 },
   { at: 0.33, position: [-1.5, 0.8, -4.1], target: [0, 0.3, 0], peek: 0 },
-  { at: 0.5, position: [-3.2, 1.7, 2.0], target: [0, 0.6, 0], peek: 0 },
+  { at: 0.5, position: [-3.6, 1.5, 2.7], target: [0, 0.35, 0], peek: 0 },
   { at: 0.67, position: [0.9, -3.0, 3.6], target: [0, -0.5, 0], peek: 0 },
   { at: 0.85, position: [3.6, 0.7, 2.4], target: [0.2, 0, 0], peek: 0.35 },
   { at: 1, position: [0, 0.3, 4.4], target: [0, 0, 0], peek: 0 },

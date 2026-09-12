@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Canvas, type CanvasProps } from "@react-three/fiber";
+import { Canvas, type CanvasProps, type RootState } from "@react-three/fiber";
 import { AnimatePresence, motion } from "motion/react";
 
 type StageProps = Omit<CanvasProps, "children" | "onCreated"> & {
@@ -13,6 +13,13 @@ type StageProps = Omit<CanvasProps, "children" | "onCreated"> & {
  */
 export function Stage({ children, className, ...canvasProps }: StageProps) {
   const [ready, setReady] = useState(false);
+  const [lost, setLost] = useState(false);
+
+  const onCreated = ({ gl }: RootState) => {
+    setReady(true);
+    gl.domElement.addEventListener("webglcontextlost", () => setLost(true));
+    gl.domElement.addEventListener("webglcontextrestored", () => setLost(false));
+  };
 
   return (
     <div className={`fixed inset-0 ${className ?? ""}`}>
@@ -22,10 +29,23 @@ export function Stage({ children, className, ...canvasProps }: StageProps) {
         animate={ready ? { opacity: 1, scale: 1 } : undefined}
         transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
       >
-        <Canvas dpr={[1, 1.5]} onCreated={() => setReady(true)} {...canvasProps}>
+        <Canvas dpr={[1, 1.5]} onCreated={onCreated} {...canvasProps}>
           {children}
         </Canvas>
       </motion.div>
+
+      {lost ? (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-ink">
+          <p className="text-label">The graphics context was lost</p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="rounded-full border border-line px-5 py-2.5 text-label text-ivory transition-colors hover:border-ivory/40"
+          >
+            Reload the scene
+          </button>
+        </div>
+      ) : null}
 
       <AnimatePresence>
         {!ready && (

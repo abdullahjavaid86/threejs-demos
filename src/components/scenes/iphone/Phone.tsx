@@ -62,19 +62,28 @@ export function Phone() {
   useEffect(() => {
     const root = partsRoot.current;
     const ph = phone.current;
-    const body = model.getObjectByName("body");
-    if (!root || !ph || !body) return;
+    const container = model.getObjectByName("iphone12_teardown");
+    if (!root || !ph || !container) return;
+    // Most parts live under "body"; the display assembly and back glass are its siblings.
+    const nodes = container.children.flatMap((c) => (c.name === "body" ? c.children.slice() : [c]));
 
     ph.rotation.set(0, 0, 0);
     ph.updateMatrixWorld(true);
 
     const map = new Map<string, PartEntry>();
     const found: Record<string, Vec> = {};
-    for (const node of body.children.slice()) {
+    for (const node of nodes) {
       root.attach(node);
       node.traverse((o) => {
         if (!(o instanceof THREE.Mesh)) return;
         const m = (o.material as THREE.MeshStandardMaterial).clone();
+        // The back glass ships with transmission, which costs a full extra scene pass per frame.
+        if (m instanceof THREE.MeshPhysicalMaterial && m.transmission > 0) {
+          m.transmission = 0;
+          m.transmissionMap = null;
+          m.clearcoat = 1;
+          m.clearcoatRoughness = 0.08;
+        }
         if (m.name === "mat_screen" && m.map) {
           m.emissive.set("#ffffff");
           m.emissiveMap = m.map;
@@ -161,7 +170,7 @@ export function Phone() {
         ? storyCallouts.map((c) => {
             const base = centres[c.part];
             if (!base) return null;
-            const anchor = add(base, c.anchorOffset ?? [0, 0, 0]);
+            const anchor = c.anchor ?? add(base, c.anchorOffset ?? [0, 0, 0]);
             return (
               <group key={`${c.part}:${c.label}`} ref={registerCallout(c.part)}>
                 <Callout

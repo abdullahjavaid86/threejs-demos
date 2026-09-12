@@ -21,11 +21,6 @@ export type Vec = [number, number, number];
 /** Where each part travels when the phone is fully scattered. Unlisted parts stay put. */
 export const scatter: Record<string, Vec> = {
   front_panel: [0.55, 0.15, 1.9],
-  front_panel_screw01: [0.55, 0.15, 1.9],
-  front_panel_screw02: [0.55, 0.15, 1.9],
-  front_panel_screw03: [0.55, 0.15, 1.9],
-  front_panel_screw04: [0.55, 0.15, 1.9],
-  earspeaker: [0.55, 0.15, 1.9],
   glue_sticker: [0.3, 0.08, 1.35],
   front_cam: [0.2, 0.4, 1.0],
   front_sensor: [0.2, 0.4, 1.0],
@@ -54,7 +49,6 @@ export const scatter: Record<string, Vec> = {
   magnets: [0.1, 0, -0.95],
   backplate: [0, -0.1, -1.25],
   back_cover: [-0.3, -0.15, -1.9],
-  back_cam_glass: [-0.3, -0.15, -1.9],
   back_cam: [0.25, 0.3, -0.85],
   back_cam_cover: [0.25, 0.3, -0.6],
   inside_cam_holder: [0.25, 0.3, -0.35],
@@ -141,6 +135,9 @@ export type StoryCallout = {
   part: string;
   label: string;
   detail?: string;
+  /** Absolute point on the phone, for exterior features that are not at a part's centre. */
+  anchor?: Vec;
+  /** Offset from the part's centre, for internal parts. */
   anchorOffset?: Vec;
   end: Vec;
   window: [number, number];
@@ -152,29 +149,29 @@ const SIDE: [number, number] = [0.43, 0.58];
 const BOTTOM: [number, number] = [0.6, 0.75];
 const INSIDE: [number, number] = [0.79, 0.92];
 
-/** Leader lines that appear during the scroll story. */
+/** Leader lines that appear during the scroll story. Exterior anchors are tuned to the visible feature. */
 export const storyCallouts: StoryCallout[] = [
   {
     part: "front_panel",
     label: "6.1-inch Super Retina XDR",
     detail: "OLED, 2532 × 1170, HDR. Ceramic Shield glass, four times tougher against drops.",
-    anchorOffset: [0.15, -0.25, 0.04],
-    end: [0.8, -0.3, 0],
+    anchor: [0.3, -0.3, 0.07],
+    end: [0.75, -0.25, 0],
     window: FRONT,
   },
   {
-    part: "front_cam",
+    part: "front_panel",
     label: "TrueDepth camera",
     detail: "Face ID and a 12 MP selfie camera in the notch.",
-    anchorOffset: [0, 0, 0.04],
-    end: [-0.8, 0.25, 0],
+    anchor: [0.2, 1.05, 0.07],
+    end: [0.8, 0.08, 0],
     window: FRONT,
   },
   {
-    part: "earspeaker",
+    part: "front_panel",
     label: "Receiver",
-    anchorOffset: [0, 0.02, 0.04],
-    end: [0.75, 0.3, 0],
+    anchor: [-0.02, 1.1, 0.07],
+    end: [-0.75, 0.1, 0],
     window: FRONT,
   },
 
@@ -182,83 +179,83 @@ export const storyCallouts: StoryCallout[] = [
     part: "back_cam",
     label: "Dual 12 MP cameras",
     detail: "Wide and Ultra Wide, Night mode on both. 4K Dolby Vision video.",
-    anchorOffset: [0, 0, -0.04],
-    end: [0.75, 0.3, 0],
+    anchor: [0.42, 0.92, -0.09],
+    end: [0.65, 0.3, 0],
     window: BACK,
   },
   {
     part: "flashlight",
     label: "True Tone flash",
-    anchorOffset: [0, 0, -0.04],
-    end: [0.65, -0.4, 0],
+    anchor: [0.22, 0.94, -0.09],
+    end: [-0.55, -0.4, 0],
     window: BACK,
   },
   {
     part: "back_cover",
     label: "Glass back with MagSafe",
     detail: "A ring of magnets aligns chargers and accessories.",
-    anchorOffset: [-0.1, -0.4, -0.02],
-    end: [-0.8, -0.45, 0],
+    anchor: [-0.1, -0.15, -0.08],
+    end: [-0.55, -0.35, 0],
     window: BACK,
   },
 
   {
     part: "btn_volume_off",
     label: "Ring / Silent",
-    anchorOffset: [-0.02, 0, 0],
-    end: [-0.8, 0.45, 0.3],
+    anchor: [-0.6, 0.75, 0],
+    end: [-0.85, 0.3, 0.2],
     window: SIDE,
   },
   {
     part: "btn_volume_up",
     label: "Volume",
-    anchorOffset: [-0.02, -0.1, 0],
+    anchor: [-0.6, 0.45, 0],
     end: [-0.8, 0.05, 0.3],
     window: SIDE,
   },
   {
     part: "simholder",
     label: "SIM tray",
-    anchorOffset: [-0.03, 0, 0],
-    end: [-0.8, -0.4, 0.3],
+    anchor: [-0.6, -0.6, 0],
+    end: [-0.7, 0.35, -0.1],
     window: SIDE,
   },
   {
     part: "btn_off",
     label: "Side button",
     detail: "Siri, Apple Pay, sleep and wake.",
-    anchorOffset: [0.02, 0, 0],
-    end: [0.3, 0.9, 0.3],
+    anchor: [0.6, 0.5, 0],
+    end: [0.35, 0.6, 0.2],
     window: SIDE,
   },
 
   {
     part: "charging_port",
     label: "Lightning connector",
-    anchorOffset: [0, -0.06, 0.02],
+    anchor: [0, -1.16, 0.02],
     end: [0.55, -0.5, 0.45],
     window: BOTTOM,
   },
   {
     part: "speaker",
     label: "Speaker",
-    anchorOffset: [0.1, -0.12, 0.02],
-    end: [0.9, -0.3, 0.45],
+    anchor: [0.28, -1.16, 0.02],
+    end: [0.85, -0.3, 0.45],
     window: BOTTOM,
   },
   {
     part: "mic",
     label: "Microphone",
-    anchorOffset: [-0.05, -0.1, 0.02],
-    end: [-0.9, -0.3, 0.45],
+    anchor: [-0.28, -1.16, 0.02],
+    end: [-0.85, -0.3, 0.45],
     window: BOTTOM,
   },
   {
     part: "screw_pentalobe",
     label: "Pentalobe screws",
     detail: "Two, either side of the port. The first step of every teardown.",
-    anchorOffset: [-0.1, -0.05, 0.02],
-    end: [-0.55, -0.6, 0.4],
+    anchor: [-0.1, -1.16, 0.05],
+    end: [-0.45, -0.45, 0.4],
     window: BOTTOM,
   },
 
