@@ -51,9 +51,11 @@ export function Rig() {
     camera.lookAt(lookAt.current);
   });
 
+  // Mounted only while orbiting: connected OrbitControls set touch-action none on the canvas,
+  // which would block touch scrolling through the story.
+  if (!orbit) return null;
   return (
     <OrbitControls
-      enabled={orbit}
       enablePan={false}
       enableDamping
       dampingFactor={0.06}
